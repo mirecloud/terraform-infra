@@ -1,0 +1,13 @@
+---
+- hosts: all
+  name:  Installation de prometheus
+  roles:
+  - prometheus.prometheus.prometheus
+  vars:
+    prometheus_targets:
+      node:
+      - targets:
+        - 34.204.72.30:9100
+        - node.demo.do.prometheus.io
+        labels:
+          env: demosite
