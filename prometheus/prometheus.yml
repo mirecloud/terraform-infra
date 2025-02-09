@@ -1,13 +1,17 @@
----
 - hosts: all
-  name:  Installation de prometheus
+  name: Installation de Prometheus
   roles:
-  - prometheus.prometheus.prometheus
+    - prometheus.prometheus.prometheus
   vars:
     prometheus_targets:
       node:
-      - targets:
-        - 34.204.72.30:9100
-        - node.demo.do.prometheus.io
-        labels:
-          env: demosite
+        - targets:
+            - "{{ hostvars['prometheus']['ansible_host'] }}:9100"
+            - node.demo.do.prometheus.io
+          labels:
+            env: demosite
+
+- hosts: all
+  name: install node_exporter
+  roles:
+    - prometheus.prometheus.node_exporter
