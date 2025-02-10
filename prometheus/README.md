@@ -60,6 +60,7 @@ The `-vvv` flag enables **verbose output** for debugging and detailed logs.
 Stay tuned for updates and feel free to contribute! 🚀
 
 ### **Author:**
+Emmanuel Steven Catin
 MireCloud Technologies ☁️
 
 
