@@ -113,7 +113,7 @@ resource "aws_route_table_association" "monitoring_rt_assoc" {
 
 resource "aws_key_pair" "Monitoring_key" {
   key_name   = "aws" # Choose a descriptive name
-  public_key = file("C:/Users/emman/Documents/Keys_gitub/github.pub") # Path to your public key file
+  public_key = file("/home/asd/.ssh/github.pub") # Path to your public key file
   tags = {
    Name = "Monitoring key"
  }
@@ -125,6 +125,6 @@ resource "null_resource" "update_inventory" {
   }
 
   provisioner "local-exec" {
-    command = "python dynamic_inventory.py"
+    command = "python3 dynamic_inventory.py"
   }
 }
