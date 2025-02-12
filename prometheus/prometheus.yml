@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: Prometheus
   name: Installation de Prometheus
   roles:
     - prometheus.prometheus.prometheus
@@ -6,12 +6,36 @@
     prometheus_targets:
       node:
         - targets:
-            - "{{ hostvars['prometheus']['ansible_host'] }}:9100"
-            - node.demo.do.prometheus.io
+           - "{{ hostvars['Prometheus']['ansible_host'] }}:9100"
+           - "{{ hostvars['grafana']['ansible_host'] }}:9100"
+           - node.demo.do.prometheus.io
           labels:
             env: demosite
 
 - hosts: all
-  name: install node_exporter
+  name: Install Node Exporter
   roles:
     - prometheus.prometheus.node_exporter
+
+- hosts: grafana
+  name: Install Grafana
+  roles:
+    - role: grafana.grafana.grafana
+      tags:
+        - install_grafana
+      vars:
+        grafana_security:
+          admin_user: "admin"
+          admin_password: "Password123#"
+
+        grafana_datasources:
+          - name: prometheus
+            type: prometheus
+            access: proxy
+            url: "http://{{ hostvars['Prometheus']['ansible_host'] }}:9090"
+            basicAuth: false
+
+        grafana_dashboards:
+          - dashboard_id: 1860
+            revision_id: 37
+            datasource: Prometheus
