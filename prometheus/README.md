@@ -45,7 +45,7 @@ The `-vvv` flag enables **verbose output** for debugging and detailed logs.
 
 ## **How It Works** 🛠️
 - **Terraform** provisions the required AWS infrastructure, including EC2 instances.
-- **Ansible** automates the deployment of **Prometheus** using the dynamic inventory.
+- **Ansible** automates the deployment of **Prometheus, grafana and node exporter** using the dynamic inventory.
 - The playbook fetches the instance IP dynamically from `inventory.json`, ensuring **flexibility** in deployments.
 - This project will be **continuously improved** with better Terraform modules, Ansible roles, and optimized configurations.
 
