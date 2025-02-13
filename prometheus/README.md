@@ -34,7 +34,7 @@ cat inventory.json
 ```
 This file contains the **Ansible inventory** with dynamic instance details such as IP addresses and SSH configurations.
 
-### **5. Deploy Prometheus using Ansible**
+### **5. Deploy Prometheus, grafana and node exporter using Ansible**
 Run the Ansible playbook to configure **Prometheus** on the newly created instance:
 ```bash
 ansible-playbook prometheus.yml -i inventory.json -vvv
