@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MireCloud Technologies</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="MireCloud Technologies Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#blog">Tutorials</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <h1>Welcome to MireCloud Technologies</h1>
+        <p>Empowering Your Cloud Journey</p>
+        <div class="cta-buttons">
+            <button onclick="window.location.href='#services';">Learn More</button>
+            <button onclick="window.location.href='#contact';">Contact Us</button>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about">
+        <h2>About Us</h2>
+        <p>MireCloud Technologies specializes in cloud migration, Kubernetes consulting, automation, and monitoring. Our mission is to simplify and optimize your IT infrastructure for growth and scalability.</p>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2>Our Services</h2>
+        <ul>
+            <li>Cloud Migration</li>
+            <li>Kubernetes Deployment</li>
+            <li>DevOps Automation</li>
+            <li>Cloud Security Optimization</li>
+            <li>Monitoring Solutions (Grafana, Kibana, Prometheus)</li>
+            <li>Linux System Administration</li>
+        </ul>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2>Our Projects</h2>
+        <div class="project-list">
+            <div class="project-item">
+                <h3>Migration to Kubernetes</h3>
+                <p>Helped a business migrate critical applications to Kubernetes, reducing downtime and enhancing scalability.</p>
+                <a href="#">View Demo</a>
+            </div>
+            <div class="project-item">
+                <h3>Automation with Ansible</h3>
+                <p>Created an automation pipeline to deploy and manage complex cloud infrastructures.</p>
+                <a href="#">View Demo</a>
+            </div>
+            <div class="project-item">
+                <h3>Real-Time Analytics with Spark</h3>
+                <p>Deployed a real-time analytics system using Apache Spark for big data processing.</p>
+                <a href="#">View Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tutorials Section -->
+    <section id="blog">
+        <h2>Tutorials & Blog</h2>
+        <div class="blog-container">
+            <div class="blog-post">
+                <img src="grafana-tutorial.jpg" alt="Grafana Tutorial">
+                <h3>Getting Started with Grafana</h3>
+                <p>Learn how to set up Grafana and monitor your systems like a pro.</p>
+                <a href="grafana-tutorial.html">Read More</a>
+            </div>
+            <div class="blog-post">
+                <img src="kubernetes-guide.jpg" alt="Kubernetes Guide">
+                <h3>Kubernetes Deployment Guide</h3>
+                <p>A step-by-step tutorial for deploying and managing Kubernetes clusters.</p>
+                <a href="kubernetes-guide.html">Read More</a>
+            </div>
+            <div class="blog-post">
+                <img src="aws-devops.jpg" alt="AWS DevOps">
+                <h3>Mastering AWS DevOps</h3>
+                <p>Best practices for implementing DevOps pipelines on AWS.</p>
+                <a href="aws-devops.html">Read More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4"></textarea>
+            
+            <button type="submit">Send</button>
+        </form>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>© 2024 MireCloud Technologies. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
