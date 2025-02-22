@@ -159,5 +159,10 @@ output "cloudfront_url" {
 - **CloudFront ensures fast and secure distribution of files.**
 - **Static files must be stored in the `mirecloud-code` folder.**
 
+---
+
+## 📌 CloudFront Architecture Diagram
+![CloudFront Architecture](cloudfront.drawio.svg)
+
 🎉 **Your static website is now accessible via CloudFront!** 🚀
 
