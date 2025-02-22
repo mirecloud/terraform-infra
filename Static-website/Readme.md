@@ -1,25 +1,25 @@
-# 🌍 Déploiement d'un site statique sur AWS avec Terraform
+# 🌍 Deploying a Static Website on AWS with Terraform
 
-Ce projet Terraform permet de déployer un site statique sur AWS en utilisant S3 et CloudFront avec des permissions sécurisées.
+This Terraform project allows you to deploy a static website on AWS using S3 and CloudFront with secure permissions.
 
-## 🚀 Fonctionnalités
-- Création d'un bucket S3 sécurisé
-- Upload des fichiers statiques (`index.html`, `index.css`, `logo.png`)
-- Blocage des accès publics directs au bucket S3
-- Configuration d'un Origin Access Control (OAC) pour CloudFront
-- Création d'une distribution CloudFront
+## 🚀 Features
+- Secure S3 bucket creation
+- Uploading static files (`index.html`, `index.css`, `logo.png`)
+- Blocking direct public access to the S3 bucket
+- Configuring an Origin Access Control (OAC) for CloudFront
+- Creating a CloudFront distribution
 
 ---
 
-## 🛠️ Déploiement avec Terraform
-### 1️⃣ Créer un bucket S3
+## 🛠️ Deployment with Terraform
+### 1️⃣ Create an S3 Bucket
 ```hcl
 resource "aws_s3_bucket" "my_bucket" {
   bucket = "my-cloudfront-secure-bucket"
 }
 ```
 
-### 2️⃣ Upload des fichiers statiques
+### 2️⃣ Upload Static Files
 ```hcl
 resource "aws_s3_object" "index_html" {
   bucket       = aws_s3_bucket.my_bucket.id
@@ -29,9 +29,9 @@ resource "aws_s3_object" "index_html" {
   content_type = "text/html"
 }
 ```
-*(Répété pour `index.css` et `logo.png`)*
+*(Repeated for `index.css` and `logo.png`)*
 
-### 3️⃣ Bloquer l'accès public direct à S3
+### 3️⃣ Block Direct Public Access to S3
 ```hcl
 resource "aws_s3_bucket_public_access_block" "my_bucket_access" {
   bucket = aws_s3_bucket.my_bucket.id
@@ -42,7 +42,7 @@ resource "aws_s3_bucket_public_access_block" "my_bucket_access" {
 }
 ```
 
-### 4️⃣ Ajouter une politique S3 pour CloudFront
+### 4️⃣ Add an S3 Policy for CloudFront
 ```hcl
 resource "aws_s3_bucket_policy" "bucket_policy" {
   bucket = aws_s3_bucket.my_bucket.id
@@ -70,7 +70,7 @@ POLICY
 }
 ```
 
-### 5️⃣ Configurer un Origin Access Control (OAC) pour CloudFront
+### 5️⃣ Configure an Origin Access Control (OAC) for CloudFront
 ```hcl
 resource "aws_cloudfront_origin_access_control" "oac" {
   name                              = "MyOAC"
@@ -81,7 +81,7 @@ resource "aws_cloudfront_origin_access_control" "oac" {
 }
 ```
 
-### 6️⃣ Déployer une distribution CloudFront
+### 6️⃣ Deploy a CloudFront Distribution
 ```hcl
 resource "aws_cloudfront_distribution" "my_distribution" {
   origin {
@@ -119,42 +119,45 @@ resource "aws_cloudfront_distribution" "my_distribution" {
 }
 ```
 
-### 7️⃣ Afficher l'URL CloudFront après le déploiement
+### 7️⃣ Display the CloudFront URL After Deployment
 ```hcl
 output "cloudfront_url" {
   value = aws_cloudfront_distribution.my_distribution.domain_name
-  description = "URL CloudFront pour accéder aux fichiers S3"
+  description = "CloudFront URL to access S3 files"
 }
 ```
 
 ---
 
-## 📌 Instructions d'utilisation
-1. **Initialiser Terraform**
+## 📌 Usage Instructions
+1. **Initialize Terraform**
    ```bash
    terraform init
    ```
-2. **Planifier le déploiement**
+2. **Plan the Deployment**
    ```bash
    terraform plan
    ```
-3. **Appliquer les changements**
+3. **Apply Changes**
    ```bash
    terraform apply
    ```
-4. **Obtenir l'URL CloudFront**
+4. **Get the CloudFront URL**
    ```bash
    terraform output cloudfront_url
    ```
-5. **Accéder au site statique via l'URL affichée**
+5. **Access the Static Website via the Displayed URL**
+   
+   🔗 **The website will be accessible at:**
+   - S3 Bucket: `my-cloudfront-secure-bucket`
+   - CloudFront URL (Example): [EXAMPLE_CLOUDFRONT_URL](https://EXAMPLE_CLOUDFRONT_URL/index.html)
 
 ---
 
 ## 📜 Notes
-- **S3 est privé** et uniquement accessible via CloudFront.
-- **CloudFront assure une distribution rapide et sécurisée des fichiers.**
-- **Les fichiers statiques doivent être stockés dans le dossier `mirecloud-code`.**
+- **S3 is private** and only accessible via CloudFront.
+- **CloudFront ensures fast and secure distribution of files.**
+- **Static files must be stored in the `mirecloud-code` folder.**
 
-
-🎉 **Votre site statique est maintenant accessible via CloudFront !** 🚀
+🎉 **Your static website is now accessible via CloudFront!** 🚀
 
