@@ -1,4 +1,4 @@
-# 🪣 1️⃣ Créer un bucket S3
+# Créer un bucket S3
 resource "aws_s3_bucket" "my_bucket" {
   bucket = "my-cloudfront-secure-bucket"
 }
@@ -33,7 +33,7 @@ output "bucket_name" {
   value = aws_s3_bucket.my_bucket.bucket
 }
 
-# 2️⃣ Activer le contrôle des accès publics pour bloquer l'accès direct S3
+# Activer le contrôle des accès publics pour bloquer l'accès direct S3
 resource "aws_s3_bucket_public_access_block" "my_bucket_access" {
   bucket = aws_s3_bucket.my_bucket.id
 
@@ -43,7 +43,7 @@ resource "aws_s3_bucket_public_access_block" "my_bucket_access" {
   restrict_public_buckets = true
 }
 
-# 3️⃣ Créer une politique S3 pour autoriser CloudFront (OAC)
+# Créer une politique S3 pour autoriser CloudFront (OAC)
 resource "aws_s3_bucket_policy" "bucket_policy" {
   bucket = aws_s3_bucket.my_bucket.id
   policy = <<POLICY
@@ -69,7 +69,7 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
 POLICY
 }
 
-# 🔐 4️⃣ Créer un Origin Access Control (OAC) pour CloudFront
+# Créer un Origin Access Control (OAC) pour CloudFront
 resource "aws_cloudfront_origin_access_control" "oac" {
   name                              = "MyOAC"
   description                       = "OAC for CloudFront to access S3"
@@ -78,7 +78,7 @@ resource "aws_cloudfront_origin_access_control" "oac" {
   signing_protocol                  = "sigv4"
 }
 
-# 🌍 5️⃣ Créer une distribution CloudFront
+# Créer une distribution CloudFront
 resource "aws_cloudfront_distribution" "my_distribution" {
   origin {
     domain_name              = aws_s3_bucket.my_bucket.bucket_regional_domain_name
@@ -114,7 +114,7 @@ resource "aws_cloudfront_distribution" "my_distribution" {
   }
 }
 
-# 🔎 6️⃣ Afficher l'URL CloudFront après le déploiement
+# Afficher l'URL CloudFront après le déploiement
 output "cloudfront_url" {
   value = aws_cloudfront_distribution.my_distribution.domain_name
   description = "URL CloudFront pour accéder aux fichiers S3"
