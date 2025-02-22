@@ -11,6 +11,10 @@ This Terraform project allows you to deploy a static website on AWS using S3 and
 
 ---
 
+## 📌 CloudFront Architecture Diagram
+![CloudFront Architecture](cloudfront.drawio.svg)
+
+
 ## 🛠️ Deployment with Terraform
 ### 1️⃣ Create an S3 Bucket
 ```hcl
@@ -158,11 +162,4 @@ output "cloudfront_url" {
 - **S3 is private** and only accessible via CloudFront.
 - **CloudFront ensures fast and secure distribution of files.**
 - **Static files must be stored in the `mirecloud-code` folder.**
-
----
-
-## 📌 CloudFront Architecture Diagram
-![CloudFront Architecture](cloudfront.drawio.svg)
-
-🎉 **Your static website is now accessible via CloudFront!** 🚀
 
