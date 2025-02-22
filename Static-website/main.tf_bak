@@ -1,0 +1,72 @@
+# Create an S3 bucket
+resource "aws_s3_bucket" "bazboutey" {
+  bucket = "mirecloud-static-website-12345"  # Ensure this is unique
+
+  tags = {
+    Name        = "mirecloud-static-website"
+    Environment = "Production"
+  }
+}
+
+# Set S3 Object Ownership to "Bucket Owner Enforced" (removes ACLs)
+resource "aws_s3_bucket_ownership_controls" "bazboutey_ownership" {
+  bucket = aws_s3_bucket.bazboutey.id
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
+
+# Disable Block Public Access so we can apply policies
+resource "aws_s3_bucket_public_access_block" "bazboutey_access" {
+  bucket = aws_s3_bucket.bazboutey.id
+
+  block_public_acls       = true  # Keeps ACLs blocked
+  block_public_policy     = false # Allows us to use a bucket policy
+  ignore_public_acls      = true
+  restrict_public_buckets = false
+}
+
+# Attach a bucket policy to allow public read access
+resource "aws_s3_bucket_policy" "allow_public_access" {
+  bucket = aws_s3_bucket.bazboutey.id
+  depends_on = [aws_s3_bucket_public_access_block.bazboutey_access]
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "PublicReadGetObject"
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = "s3:GetObject"
+        Resource  = "arn:aws:s3:::${aws_s3_bucket.bazboutey.id}/*"
+      }
+    ]
+  })
+}
+
+# Upload files WITHOUT using ACLs
+resource "aws_s3_object" "index_html" {
+  bucket       = aws_s3_bucket.bazboutey.id
+  key          = "index.html"
+  source       = "mirecloud-code/index.html"
+  content_type = "text/html"
+  depends_on   = [aws_s3_bucket_policy.allow_public_access]
+}
+
+resource "aws_s3_object" "index_css" {
+  bucket       = aws_s3_bucket.bazboutey.id
+  key          = "index.css"
+  source       = "mirecloud-code/index.css"
+  content_type = "text/css"
+  depends_on   = [aws_s3_bucket_policy.allow_public_access]
+}
+
+resource "aws_s3_object" "logo" {
+  bucket       = aws_s3_bucket.bazboutey.id
+  key          = "logo.png"
+  source       = "mirecloud-code/logo.png"
+  content_type = "image/png"
+  depends_on   = [aws_s3_bucket_policy.allow_public_access]
+}
