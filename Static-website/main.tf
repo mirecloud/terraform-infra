@@ -1,9 +1,15 @@
-# Créer un bucket S3
+########################
+# S3 BUCKET
+########################
+
 resource "aws_s3_bucket" "my_bucket" {
-  bucket = "my-cloudfront-secure-bucket"
+  bucket = "my-cloudfront-secure-bucket-mirecloud-2025"
 }
 
-# Upload individual files
+########################
+# S3 OBJECTS
+########################
+
 resource "aws_s3_object" "index_html" {
   bucket       = aws_s3_bucket.my_bucket.id
   key          = "index.html"
@@ -28,12 +34,18 @@ resource "aws_s3_object" "logo_png" {
   content_type = "image/png"
 }
 
-# Output the bucket name
+########################
+# OUTPUT
+########################
+
 output "bucket_name" {
   value = aws_s3_bucket.my_bucket.bucket
 }
 
-# Activer le contrôle des accès publics pour bloquer l'accès direct S3
+########################
+# BLOCK PUBLIC ACCESS
+########################
+
 resource "aws_s3_bucket_public_access_block" "my_bucket_access" {
   bucket = aws_s3_bucket.my_bucket.id
 
@@ -43,33 +55,10 @@ resource "aws_s3_bucket_public_access_block" "my_bucket_access" {
   restrict_public_buckets = true
 }
 
-# Créer une politique S3 pour autoriser CloudFront (OAC)
-resource "aws_s3_bucket_policy" "bucket_policy" {
-  bucket = aws_s3_bucket.my_bucket.id
-  policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AllowCloudFrontServicePrincipalReadOnly",
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "cloudfront.amazonaws.com"
-            },
-            "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::my-cloudfront-secure-bucket/*",
-            "Condition": {
-                "StringEquals": {
-                    "AWS:SourceArn": "${aws_cloudfront_distribution.my_distribution.arn}"
-                }
-            }
-        }
-    ]
-}
-POLICY
-}
+########################
+# ORIGIN ACCESS CONTROL
+########################
 
-# Créer un Origin Access Control (OAC) pour CloudFront
 resource "aws_cloudfront_origin_access_control" "oac" {
   name                              = "MyOAC"
   description                       = "OAC for CloudFront to access S3"
@@ -78,8 +67,12 @@ resource "aws_cloudfront_origin_access_control" "oac" {
   signing_protocol                  = "sigv4"
 }
 
-# Créer une distribution CloudFront
+########################
+# CLOUD FRONT
+########################
+
 resource "aws_cloudfront_distribution" "my_distribution" {
+
   origin {
     domain_name              = aws_s3_bucket.my_bucket.bucket_regional_domain_name
     origin_id                = "S3Origin"
@@ -114,8 +107,39 @@ resource "aws_cloudfront_distribution" "my_distribution" {
   }
 }
 
-# Afficher l'URL CloudFront après le déploiement
+########################
+# S3 POLICY FOR CLOUDFRONT
+########################
+
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  bucket = aws_s3_bucket.my_bucket.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowCloudFrontServicePrincipalReadOnly"
+        Effect = "Allow"
+        Principal = {
+          Service = "cloudfront.amazonaws.com"
+        }
+        Action   = "s3:GetObject"
+        Resource = "${aws_s3_bucket.my_bucket.arn}/*"
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = aws_cloudfront_distribution.my_distribution.arn
+          }
+        }
+      }
+    ]
+  })
+}
+
+########################
+# OUTPUT CLOUDFRONT URL
+########################
+
 output "cloudfront_url" {
-  value = aws_cloudfront_distribution.my_distribution.domain_name
+  value       = aws_cloudfront_distribution.my_distribution.domain_name
   description = "URL CloudFront pour accéder aux fichiers S3"
 }
