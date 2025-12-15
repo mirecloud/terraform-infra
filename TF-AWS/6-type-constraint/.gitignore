@@ -1,0 +1,17 @@
+# Les dossiers temporaires de Terraform (les plugins téléchargés)
+.terraform/
+
+# Les fichiers d'état (TRÈS IMPORTANT : contient vos secrets en clair)
+*.tfstate
+*.tfstate.backup
+
+# Les fichiers de variables contenant des mots de passe
+*.tfvars
+*.tfvars.json
+
+# Fichiers de crash logs
+crash.log
+
+# Fichiers systèmes Windows (optionnel mais recommandé)
+Thumbs.db
+.DS_Store
